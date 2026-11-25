@@ -115,24 +115,22 @@ jobs:
             --build-arg UBUNTU_MIRROR=https://archive.ubuntu.com \
             -t "rocm/sgl-dev:${image_tag}" \
             --no-cache
-          if [ "${PUSH_IMAGES}" = "true" ]; then
-            docker push "rocm/sgl-dev:${image_tag}"
-          else
-            echo "Build-only run: not pushing rocm/sgl-dev:${image_tag}"
-          fi
+          echo "Test build: not pushing rocm/sgl-dev:${image_tag}"
 
-      - name: Login to Docker Hub (lmsys)
+      - name: Login to Docker Hub (bingxche test)
         if: env.PUSH_IMAGES == 'true'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: bingxche
+          password: ${{ secrets.DOCKERHUB_AMD_TEST_TOKEN_BX }}
 
-      - name: Push to lmsysorg/sglang-rocm
+      - name: Push test image to bingxche/sgl-test
         if: env.PUSH_IMAGES == 'true'
         run: |
-          docker tag "rocm/sgl-dev:${IMAGE_TAG}" "lmsysorg/sglang-rocm:${IMAGE_TAG}"
-          docker push "lmsysorg/sglang-rocm:${IMAGE_TAG}"
+          test_tag="test-pr53131-tilelang-v0.1.12-${IMAGE_TAG#v}"
+          docker tag "rocm/sgl-dev:${IMAGE_TAG}" "bingxche/sgl-test:${test_tag}"
+          docker push "bingxche/sgl-test:${test_tag}"
+          echo "Pushed bingxche/sgl-test:${test_tag}" >> "$GITHUB_STEP_SUMMARY"
 
   publish-gfx1250-rocm101:
     if: github.repository == 'sgl-project/sglang' && (github.event_name != 'workflow_dispatch' || inputs.job_select == 'all' || inputs.job_select == 'publish-gfx1250-rocm101')
@@ -193,24 +191,22 @@ jobs:
             --build-arg UBUNTU_MIRROR=https://archive.ubuntu.com \
             -t "rocm/sgl-dev:${image_tag}" \
             --no-cache
-          if [ "${PUSH_IMAGES}" = "true" ]; then
-            docker push "rocm/sgl-dev:${image_tag}"
-          else
-            echo "Build-only run: not pushing rocm/sgl-dev:${image_tag}"
-          fi
+          echo "Test build: not pushing rocm/sgl-dev:${image_tag}"
 
-      - name: Login to Docker Hub (lmsys)
+      - name: Login to Docker Hub (bingxche test)
         if: env.PUSH_IMAGES == 'true'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: bingxche
+          password: ${{ secrets.DOCKERHUB_AMD_TEST_TOKEN_BX }}
 
-      - name: Push to lmsysorg/sglang-rocm
+      - name: Push test image to bingxche/sgl-test
         if: env.PUSH_IMAGES == 'true'
         run: |
-          docker tag "rocm/sgl-dev:${IMAGE_TAG}" "lmsysorg/sglang-rocm:${IMAGE_TAG}"
-          docker push "lmsysorg/sglang-rocm:${IMAGE_TAG}"
+          test_tag="test-pr53131-tilelang-v0.1.12-${IMAGE_TAG#v}"
+          docker tag "rocm/sgl-dev:${IMAGE_TAG}" "bingxche/sgl-test:${test_tag}"
+          docker push "bingxche/sgl-test:${test_tag}"
+          echo "Pushed bingxche/sgl-test:${test_tag}" >> "$GITHUB_STEP_SUMMARY"
 
   # gfx1250 (MI45x) runs on the same schedule as the pair above but stays a
   # separate job: no MI450 runner pool consumes the image, so a bring-up build
@@ -274,21 +270,19 @@ jobs:
             --build-arg UBUNTU_MIRROR=https://archive.ubuntu.com \
             -t "rocm/sgl-dev:${image_tag}" \
             --no-cache
-          if [ "${PUSH_IMAGES}" = "true" ]; then
-            docker push "rocm/sgl-dev:${image_tag}"
-          else
-            echo "Build-only run: not pushing rocm/sgl-dev:${image_tag}"
-          fi
+          echo "Test build: not pushing rocm/sgl-dev:${image_tag}"
 
-      - name: Login to Docker Hub (lmsys)
+      - name: Login to Docker Hub (bingxche test)
         if: env.PUSH_IMAGES == 'true'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: bingxche
+          password: ${{ secrets.DOCKERHUB_AMD_TEST_TOKEN_BX }}
 
-      - name: Push to lmsysorg/sglang-rocm
+      - name: Push test image to bingxche/sgl-test
         if: env.PUSH_IMAGES == 'true'
         run: |
-          docker tag "rocm/sgl-dev:${IMAGE_TAG}" "lmsysorg/sglang-rocm:${IMAGE_TAG}"
-          docker push "lmsysorg/sglang-rocm:${IMAGE_TAG}"
+          test_tag="test-pr53131-tilelang-v0.1.12-${IMAGE_TAG#v}"
+          docker tag "rocm/sgl-dev:${IMAGE_TAG}" "bingxche/sgl-test:${test_tag}"
+          docker push "bingxche/sgl-test:${test_tag}"
+          echo "Pushed bingxche/sgl-test:${test_tag}" >> "$GITHUB_STEP_SUMMARY"
